@@ -142,6 +142,63 @@ public class DoublyLinkedList {
         tail.value = temp.value;
     }
 
+    // Interview Question->2 -> Reverse the DLL.
+    // Do not swap the values. Manipulate the pointers.
+    public void reverse() {
+        if (length < 2) return;
+        Node temp = head;
+        Node prev = null;
+        while (temp != null) {
+            prev = temp.prev;
+            temp.prev = temp.next;
+            temp.next = prev;
+            temp = temp.prev;
+        }
+        temp = head;
+        head = tail;
+        tail = temp;
+    }
+
+    // Interview Question->3 -> Palindrome checker.
+    public boolean isPalindrome() {
+        if (length == 1) return true;
+        Node first = head;
+        Node second = tail;
+        while (first != second) {
+            if (first.value != second.value) {
+                return false;
+            }
+            first = first.next;
+            second = second.prev;
+        }
+        return true;
+    }
+
+    // Interview Question->4 -> Swap Nodes in pairs.
+    // Solve without modifying the values.
+    public void swapPairs() {
+        if (length < 2) return;
+        Node dummy = new Node(0);
+        dummy.next = head;
+        Node previousNode = dummy;
+        while( head != null && head.next != null) {
+            Node firstNode = head;
+            Node secondNode = head.next;
+            previousNode.next = secondNode;
+            firstNode.next = secondNode.next;
+            secondNode.next = firstNode;
+            secondNode.prev = previousNode;
+            firstNode.prev = secondNode;
+            if (firstNode.next != null) {
+                firstNode.next.prev = firstNode;
+            }
+            head = firstNode.next;
+            previousNode = firstNode;
+        }
+        head = dummy.next;
+        if (head != null) head.prev = null;
+    }
+
     public void getHead() {
         System.out.println("Head : " + head.value);
     }
