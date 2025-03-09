@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,8 +17,16 @@ public class Main {
 
 //        int[] prices = {7, 1, 5, 3, 6, 4};
 //        System.out.println(maxProfit(prices));
-        int[] nums = {1,2,3,4,5};
-        System.out.println(maxSubarray(nums));
+//        int[] nums = {1, 2, 3, 4, 5, 6};
+//       System.out.println(moveAllZeros(nums));
+//        for (int c: rotateJuggling(nums, 2)) {
+//            System.out.println(c);
+//        }
+
+        String s = "eabbae";
+        System.out.println(isPalindrome(s));
+
+        System.out.println(reverseString("Anoop"));
     }
 
     // Interview question 01 -> Remove element.
@@ -106,4 +115,155 @@ public class Main {
         return maxSum;
     }
 
+    // Interview Question 08 -> Second-largest number in an array.
+
+    public static int secondLargest(int[] arr) {
+        int largest = Integer.MIN_VALUE;
+        int secondLargest = Integer.MIN_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > largest) {
+                largest = arr[i];
+            }
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > secondLargest && arr[i] != largest) {
+                secondLargest = arr[i];
+            }
+        }
+        return secondLargest;
+    }
+
+    public static int thirdLargest(int[] arr) {
+        int first = Integer.MIN_VALUE, second = Integer.MIN_VALUE, third = Integer.MIN_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+
+            if (arr[i] > first) {
+                third = second;
+                second = first;
+                first = arr[i];
+            } else if (arr[i] > second) {
+                third = second;
+                second = arr[i];
+            } else if (arr[i] > third) {
+                third = arr[i];
+            }
+        }
+        return third;
+    }
+
+    public static int maxProductTriplet(int[] arr) {
+        int first = Integer.MIN_VALUE, second = Integer.MIN_VALUE, third = Integer.MIN_VALUE;
+        int firstMin = Integer.MAX_VALUE, secondMin = Integer.MAX_VALUE;
+        int product = 0;
+        for (int i =0; i < arr.length; i++) {
+            if (arr[i] > first) {
+                third = second;
+                second = first;
+                first = arr[i];
+            } else if (arr[i] > second) {
+                third = second;
+                second = arr[i];
+            } else if (arr[i] > third) {
+                third = arr[i];
+            }
+
+            if (arr[i] < firstMin) {
+                secondMin = firstMin;
+                firstMin = arr[i];
+            } else if (arr[i] < secondMin) {
+                secondMin = arr[i];
+            }
+        }
+        product = Math.max(first * second * third, firstMin * secondMin * first);
+        return product;
+    }
+
+    public static int[] moveAllZeros(int[] arr) {
+        int count = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != 0) {
+                int temp = arr[i];
+                arr[i] = arr[count];
+                arr[count] = temp;
+                count++;
+            }
+        }
+        return arr;
+    }
+
+    public static int[] reverseGroup(int[] arr, int k) {
+        int n = arr.length;
+        for (int i = 0; i < n; i += k) {
+            int left = i;
+            int right = Math.min(i + k - 1, n - 1);
+
+            while (left < right) {
+                int temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+                left++;
+                right--;
+            }
+        }
+        return arr;
+    }
+
+    public static int[] rotateLeft(int[] arr, int k) {
+         int n = arr.length;
+         k = k % n;
+         reverse(arr, 0, n-1);
+         reverse(arr, 0, n - k - 1);
+         reverse(arr, n - k, n - 1);
+         return arr;
+    }
+
+    //using  juggling algorithm
+    public static int[] rotateJuggling(int[] arr, int d) {
+         int n = arr.length;
+         d %= n;
+
+         int cycles = gcd(n, d);
+         for (int i=0; i < cycles; i++) {
+             int startEle = arr[i];
+             int currentIdx = i, nextIdx;
+
+             while (true)  {
+                 nextIdx = (currentIdx + d) % n;
+
+                 if (nextIdx == i)
+                     break;
+
+                 arr[currentIdx] = arr[nextIdx];
+                 currentIdx = nextIdx;
+             }
+             arr[currentIdx] = startEle;
+         }
+         return arr;
+    }
+
+    public static int gcd(int b, int a) {
+        if (b == 0)
+            return a;
+        return gcd(b % a, a);
+    }
+
+    public static boolean isPalindrome(String s) {
+        int len = s.length();
+        for (int i = 0; i < len /2; i++) {
+            if (s.charAt(i) != s.charAt(len - i - 1)) return false;
+        }
+        return true;
+    }
+    public static String reverseString(String s) {
+        Stack<Character> st = new Stack<>();
+        for (int i = 0; i < s.length();i++) {
+            st.push(s.charAt(i));
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            res.append(st.pop());
+        }
+        return res.toString();
+    }
 }
