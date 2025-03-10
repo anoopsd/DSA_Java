@@ -4,6 +4,8 @@ import java.util.Queue;
 
 public class BinarySearchTree {
     private Node root;
+    private int count = 0;
+    private int result = -1;
 
     public Node getRoot() {
         return root;
@@ -193,5 +195,35 @@ public class BinarySearchTree {
         DFSrInOrder(current.left, res);
         res.add(current.value);
         DFSrInOrder(current.right, res);
+    }
+
+    public boolean isValidBST() {
+        ArrayList<Integer> traversed = new ArrayList<>();
+        DFSrInOrder(root, traversed);
+
+        for(int i = 1; i < traversed.size(); i++) {
+            if (traversed.get(i) < traversed.get(i - 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int kthSmallest(int k) {
+        inOrderTraversal(root, k);
+        return result;
+    }
+
+    private void inOrderTraversal(Node current, int k) {
+        if (current == null) {
+            return;
+        }
+        inOrderTraversal(current.left, k);
+        count++;
+        if (count == k) {
+            result = current.value;
+            return;
+        }
+        inOrderTraversal(current.right, k);
     }
 }

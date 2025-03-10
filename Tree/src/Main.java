@@ -12,9 +12,6 @@ public class Main {
         System.out.println(bst.rContains(1));
         System.out.println(bst.rContains(6));
 
-        System.out.println(bst.DFSInOrder());
-
-        int[] nums = {1,2,3,4,5,6};
-        bst.sortToBST(nums, 0 , nums.length - 1);
+        System.out.println(bst.kthSmallest(3));
     }
 }
