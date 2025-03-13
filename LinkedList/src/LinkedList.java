@@ -313,4 +313,22 @@ public class LinkedList {
         }
         head = dummy.next;
     }
+
+    //Interview question-> 08 bubblesort
+    public void bubbleSort() {
+        if (length < 2) return;
+        Node sortedUntill = null;
+        while (sortedUntill != head.next) {
+            Node current = head;
+            while (current.next != sortedUntill) {
+                if(current.value > current.next.value) {
+                    int temp = current.value;
+                    current.value = current.next.value;
+                    current.next.value = temp;
+                }
+                current = current.next;
+            }
+            sortedUntill = current;
+        }
+    }
 }
